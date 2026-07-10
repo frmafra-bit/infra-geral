@@ -11,11 +11,11 @@ metadata:
 
 **Locais de redundância (os "3-4 lugares"):**
 1. **Código** → GitHub `MafraFiori/DAVI_CAMINHOES`, branch `feature/despesas-cotacao` (backup; NÃO é a main, não afeta Ricardo/Jr). ✅ EM DIA (push 10/07, commit d6e7ddf).
-2. **Memória** → repo git LOCAL já commitado (em `~/.claude/projects/.../memory/`), + [🔴 PENDENTE: repo PRIVADO no GitHub — falta criar; sugestão sob a conta pessoal do Mafra, NÃO no repo do código que o Jr acessa, pois a memória tem notas internas — ver [[nfse-dado-sensivel-gestores]]].
+2. **Memória** → ✅ **NO GITHUB (privado): `git@github.com:frmafra-bit/infra-geral.git`, branch `main`** (conta `frmafra-bit`, separada do repo do código que o Jr acessa). Push via **SSH** com a chave `~/.ssh/github_davi` (config permanente no repo: `core.sshCommand`). Autentica sem 2FA/senha. Repo local em `~/.claude/projects/.../memory/`. Para PUXAR em outra máquina: gerar chave SSH nova + adicionar na conta frmafra-bit + `git clone git@github.com:frmafra-bit/infra-geral.git`, e copiar os .md pra `~/.claude/projects/<slug>/memory/`.
 3. **Cópia no Mac** → `~/davi-memoria/` e `~/.claude/projects/-Users-mafra-portal-davi/memory/` (defasada — de 09/07; Mac estava dormindo em 10/07; sincronizar quando acessível).
 4. **Backup no VPS 161** → `~/davi-memoria-backup/` (administrador@161.97.185.151) — cópia FRESCA da memória, atualizada 10/07 15:45 via scp do Windows. É o backup off-machine mais confiável hoje (servidor estável, com meu acesso SSH), enquanto o GitHub da memória não sobe.
 
-**STATUS 10/07:** push da memória pro GitHub BLOQUEADO — a conta `frmafra` (a que tem credencial salva no Windows) pede **2FA**, e os repos que o Mafra criou estão em OUTRAS contas (`mafra-byte`, `frmafra-bit`) onde `frmafra` não tem escrita. Mafra vai resolver o 2FA depois. Enquanto isso, a redundância está garantida pelo **backup no 161** (item 4). Quando o 2FA for resolvido: criar `frmafra/davi-memoria` (privado) e `git push` (o repo local da memória já está commitado e limpo).
+**STATUS 10/07 — RESOLVIDO:** memória no GitHub via SSH (frmafra-bit/infra-geral). O login por SENHA da frmafra pedia 2FA; contornado com **chave SSH** (não pede 2FA). Agora `git push` da memória funciona direto, sem senha/token. Redundância COMPLETA: Windows + 161 + GitHub + (Mac quando acordar). PENDENTE só: rotacionar as 4 credenciais que vazaram.
 
 **REGRA (toda sessão de trabalho relevante — SEM EXCEÇÃO):**
 - Mudou **memória** → `git add/commit` no repo da memória e **`git push`** (assim que o remoto privado existir).
