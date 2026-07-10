@@ -31,3 +31,4 @@
 - [Arquitetura de dados do portal](arquitetura-dados-portal.md) — SAP/HANA só via Service Layer (sem HANA direto); cérebro no nosso banco 161 (SQLite roda; Postgres a subir); espelho incremental; planejamento de estoque
 - [NFS-e = dado sensível dos gestores](nfse-dado-sensivel-gestores.md) — NÃO deixar tela de Notas de Serviço no ar; expõe notas dos PJ dos donos; só sob pedido + controle de acesso
 - [Ambiente Mac (migração)](ambiente-mac-migracao.md) — projeto migrado p/ MacBook do Mafra 09/07; abrir Claude em ~/portal-davi; deploy nativo; usar UMA máquina
+- [Protocolo backup/continuidade](protocolo-backup-continuidade.md) — REGRA: código+memória sempre no GitHub; notebook não pode ser ponto único de falha; push ao fim de toda sessão; automatizar
