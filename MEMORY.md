@@ -1,0 +1,33 @@
+# Memory Index
+
+- [Projeto migração SAP B1 grupo Davi/Terra Mix](projeto-migracao-sap-davi.md) — escopo, 4 bases, tarefas em andamento
+- [SAP B1 Service Layer — gotchas técnicos](sap-sl-gotchas.md) — campos, comportamentos não óbvios do SL
+- [Texto carimbo do assistente](carimbo-assistente-texto.md) — frase padrão p/ documentar alterações nos cadastros
+- [Próximos portais Davi](proximos-portais-davi.md) — fase 2: Portal Contratos & Projetos (Vanessa) e Projeto Financeiro (Bruna)
+- [Integração Qive](integracao-qive.md) — captura fiscal (NFe/NFSe/CTe) → Contas a Pagar SAP; pendente chave de API e cidades NFSe
+- [Equipe e governança do portal](equipe-e-governanca-portal.md) — repo GitHub MafraFiori/DAVI_CAMINHOES; Junior autoriza tudo; nada sobe sem ele; padrão de código do Ricardo
+- [Tratamento do pneu pendente](tratamento-pneu-pendente.md) — ativo/estoque/despesa em definição pela gestão; amarração só por placa por enquanto
+- [Backlog Compras do portal](backlog-compras-portal.md) — requisitos do Sistema de Compras (SC, cotação, similares, relatórios); resp. Rute
+- [Catálogo de objetos customizados SAP](catalogo-objetos-customizados-sap.md) — UDT/UDO/UDF e configs criados (homolog); atualizar sempre que criar/alterar
+- [Cadastro das empresas do grupo](cadastro-empresas-grupo-davi.md) — CNPJ, razão social, endereço, quadro societário; pendências (IE, CNAE, PF)
+- [Padrão formulário único por processo](padrao-formulario-unico-processo.md) — um único form exato (inclusão=edição=consulta); mudança = customização
+- [Estado portal Recebimento jun/2026](estado-portal-receb-junho2026.md) — Receb/NF prontos; CP baixa c/ desconto/juros/abatimento + Contas a Receber completo deployados no VPS teste (29/06)
+- [Backlog Faturamento/Vendas](backlog-faturamento-vendas.md) — auditoria 29/06: lacunas de desconto/dimensões/serviço no ciclo de vendas; só diagnosticado
+- [Auditoria Movimentos de Estoque](auditoria-estoque-vendas.md) — 29/06: estoque funcional e quase no padrão; 1 ajuste fino (Entrada consulta) + decisão (dim. na Transferência)
+- [Estorno + Ver Lançamento Contábil](estorno-e-ver-lancamento-contabil.md) — componente reutilizável; estorno por doc inverso; case-sensitivity Linux
+- [Regra de custo na Entrada de Mercadoria](regra-custo-entrada-mercadoria.md) — usa custo médio (MovingAveragePrice); sem custo bloqueia → Inventário
+- [Mapa de Relações de Vendas](mapa-relacoes-vendas.md) — cadeia de vendas no mapa; NodeId composto (DocEntry repete entre tipos); BaseType devolução 234000031
+- [Fluxo completo compra→venda (teste)](fluxo-completo-compra-venda-teste.md) — receita SL p/ ciclo make-to-stock + dados-mestre válidos (produtos RV, dims, CFOP, comprador)
+- [Base de Conhecimento (wiki)](base-conhecimento-wiki.md) — link /wiki/ com problemas→soluções por data; como manter
+- [Deploy 161 + detector de versão](deploy-e-detector-versao-portal.md) — script deploy-161.sh, version.json, aviso "nova versão" (anti-cache SPA)
+- [Estado portal jul/2026 Compras+Estoque](estado-portal-julho2026-compras-estoque.md) — lote grande de correções 01/07 (DocTotal, Mapa, UoM, Saída, PriceAccuracy, Vincular Receb) + pendências
+- [Vigia Telegram de documentos](vigia-telegram-documentos.md) — avisa no Telegram a cada doc novo no SAP; roda no Contabo 161 via cron; bot @Daviportalalertas_bot
+- [Clone do Thales no VPS 161](clone-thales-vps.md) — claude já instalado+autenticado no 161; memórias no servidor; terminal web (ttyd) via ~/setup_thales_web.sh; backups no Drive
+- [Registro início/fim de atividades](pratica-registro-inicio-fim.md) — toda atividade com dia/hora de início e conclusão (wiki rec/res + Telegram); argumento de velocidade da consultoria
+- [Mosaico kanban fiscal](mosaico-kanban-fiscal.md) — quadro Pedidos × NF-e Qive; amarração @AMARR_FORNPROD que aprende. ATUALIZADO 09/07: bugs corrigidos (parcelas/frete na NF, "R$ R$"), recebimento baseado no pedido FECHA o pedido sozinho, ciclo SC→Cotação→Pedido→Receb→NF→baixa VALIDADO ponta-a-ponta via SL. Fase 2 pendente (CFOP inteligente, aviso Telegram, cód. barras)
+- [Backlog fiscal Rafaela](backlog-fiscal-rafaela.md) — 13 itens; Onda 1 entregue 09/07 (XML por empresa, parcelas XML, ICMS ST, NF Entrada); Onda 2 pendente
+- [Armazenamento foto de produto](foto-produto-armazenamento.md) — foto por código; volume persistente no VPS 161 (era efêmera no container); decisão futura: local do cliente ou anexos SAP
+- [Estratégia: observar antes de automatizar](estrategia-observar-antes-de-automatizar.md) — acompanhar rotinas dos times (Rute/Rafaela/Bruna/Financeiro), pegar o padrão, só então automação; fase de observação
+- [Arquitetura de dados do portal](arquitetura-dados-portal.md) — SAP/HANA só via Service Layer (sem HANA direto); cérebro no nosso banco 161 (SQLite roda; Postgres a subir); espelho incremental; planejamento de estoque
+- [NFS-e = dado sensível dos gestores](nfse-dado-sensivel-gestores.md) — NÃO deixar tela de Notas de Serviço no ar; expõe notas dos PJ dos donos; só sob pedido + controle de acesso
+- [Ambiente Mac (migração)](ambiente-mac-migracao.md) — projeto migrado p/ MacBook do Mafra 09/07; abrir Claude em ~/portal-davi; deploy nativo; usar UMA máquina
