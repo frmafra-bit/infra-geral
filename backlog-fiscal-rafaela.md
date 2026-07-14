@@ -25,9 +25,33 @@ Doc "Ajustes_SAP_Fiscal.docx" (Rafaela, Fiscal) — 13 itens. PDF do plano envia
 
 **#4 ESTORNO (investigado 09/07):** em estado limpo o estorno da NF de Entrada FUNCIONA — testei via SL: PurchaseInvoices(DE)/Cancel retorna 204 (standalone E baseada em recebimento; ao cancelar a NF base 20 o recebimento reabre bost_Open). Logo o erro da Rafaela é caso ESPECÍFICO (NF já paga/encadeada com pagamento, ou outra tela). Proteção adicionada mesmo assim: NFEntradaDetalhe.onCancelarNFEntrada agora passa `reverseEntitySet:"PurchaseCreditNotes", baseType:18, doc` → se o Cancel falhar, o `cancelarOuEstornarMovimento` (Base) gera automaticamente a Nota de Crédito (base 18, Quantity explícita) revertendo estoque+financeiro. `_estornarPorDocumentoInverso` ganhou suporte a `oCfg.baseType` (reverso baseado no doc, fecha o original). AINDA precisa da Rafaela: QUAL documento + a MENSAGEM de erro exata (pra confirmar o caso dela).
 
-**RESOLVIDO 10/07/2026 (doc `Ajustes_SAP_Fiscal_Pendencias_Mafra.docx` com 5 prints — o Claude do Mac tinha respondido SEM ver as imagens e errou; eu li as imagens):**
-- **#4 ESTORNO — era BUG do portal, corrigido.** Print: NF de SERVIÇO DocNum 69 (AO3 Tecnologia LTDA, R$1805,53) dava *"Não foi possível cancelar: Unexpected end of JSON input"*. Causa: `fetchApi` (Base.controller ~4657) fazia `response.json()` sem checar corpo; a ação `Cancel`/`Close` do SAP retorna **204 vazio** → estourava mesmo com SUCESSO. FIX: se status 204 ou corpo vazio → retorna null (não parseia). Deploy 161 v2026-07-10T19:43:41Z. PROVA: NF 69 no SAP está `bost_Close`/Cancelled=tYES — o estorno TINHA funcionado; só a mensagem era falsa. Corrige qualquer Cancel/Close (fechar pedido, estornar receb/NF, etc.).
-- **#9 CNPJ fornecedor — corrigido.** TINTAS ESTÂNCIA DAS CORES (CardCode F03665112000150). FederalTaxID estava `0366511000150` (errado/incompleto) → PATCH via SL p/ **`03665112000150`** (correto). Agora o XML/recebimento acha o fornecedor (antes: *"Não foi possível encontrar fornecedor com o CNPJ: 03665112000150"*).
-- **#3 "campo ausente do Item" — identificado: é o `ItemCode` (Código do Item).** Print: NF de Entrada (fornecedor BRASIF, item "MANGUEIRA FILTRO AR MOTOR") dá *"Número do item ausente [DocumentLines.ItemCode][line:1]"*. A linha tinha descrição/preço/imposto mas SEM ItemCode → o produto não foi amarrado/selecionado (típico de XML sem amarração). Não é bug do portal (a validação já avisa certo); a orientação p/ Rafaela é selecionar/amarrar o item. Liga com [[mosaico-kanban-fiscal]] (amarração) e a fila de Pendências. Possível melhoria futura: bloquear/orientar melhor na tela de NF de Entrada quando vier item sem código.
+**AINDA AGUARDANDO RAFAELA:** (#4) qual documento + mensagem exata do erro de estorno; (#9) qual fornecedor + CNPJ correto; (#3) qual campo falta no cadastro do Item.
 
 **CFOP INTELIGENTE — ADIADO (decisão Mafra 09/07): NÃO implementar por dedução (5→1/6→2); esperar a RÉGUA da Rafaela.** O ciclo procure-to-pay completo foi validado via SL usando CFOP fallback 0001/TaxCode 0001-001 (funciona, mas não é o CFOP fiscal correto). Para fechar de vez o CFOP de entrada, PEDIR à Rafaela: (1) tabela de-para CFOP saída→entrada por tipo de operação (revenda, industrialização, uso/consumo, ativo), incluindo casos com ST/IPI; (2) a lista CURTA de CFOPs de entrada que ela usa de fato; (3) o TaxCode SAP casado com cada CFOP. Só então modelar (mexe em onGerarRecebimento/onConfirmaImposto do Mosaico + fallback das telas de entrada). Ver [[mosaico-kanban-fiscal]] (é o item 1 do "o que falta para fechar o fluxo"; item 2 = parametrização IPI/ICMS-ST no SAP, dependência Ativy).
+
+**DOC NOVO DA RAFAELA (`Ajustes_SAP_Fiscal_Pendencias_Mafra.docx`, lido 09/07) — 3 itens, todos investigados:**
+- **#9 fornecedor: CAUSA ACHADA.** `F03665112000150` = TINTAS ESTANCIA DAS CORES LTDA. O `CardCode` está
+  certo; o **`FederalTaxID` tem 13 dígitos: `0366511000150` — falta o `2`** (correto `03665112000150`).
+  Confirmado nas **4 bases** (SBO_HOMOLOG, SBO_DAVI_PRD, SBO_TERRAMIX, SBO_TERRAMIXHOMOLOG) — está em
+  PRODUÇÃO, não é só teste. Explica o sintoma dela: Mosaico/ImportaXml casam fornecedor por
+  `FederalTaxID`; o XML traz o CNPJ certo e o cadastro tem o errado → recebimento não aparece p/ vincular.
+  Correção = 1 PATCH de campo. **Mafra decidiu NÃO corrigir ainda — fica pendência da Rafaela responder.**
+- **#4 estorno: o número que ela deu NÃO EXISTE.** "N° NF SAP: 237" — procurado nas **7 bases** como
+  `PurchaseInvoices.DocNum`, como `DocEntry`, como `NumAtCard`, como NF de saída (`Invoices`) e como
+  recebimento (`PurchaseDeliveryNotes`). Zero resultados. No homolog a maior NF de Entrada é **87**.
+  Falta ainda: **a mensagem de erro exata (print)** e **em qual base/tela** ela testou.
+- **#3 campo do Item: item vazio.** Ela escreveu "não identificamos qual campo está ausente do Item" —
+  devolveu a pergunta. Ou alguém reformula, ou encerra.
+
+Credencial do Service Layer (usada nessa investigação, só leitura): `manager` / senha do Mafra em
+`b1.ativy.com:17162/b1s/v1`. Não há credencial de serviço gravada em servidor nenhum — ver
+[[agentes_runner_telegram]] se for criar tool de consulta SAP para o agente.
+
+- **#Cleiton (13/07) — 2 bugs no Recebimento de Mercadoria, corrigidos:**
+  (1) **Estorno "Código do Fornecedor está vazio":** o `_estornarPorDocumentoInverso` (Base) montava o
+  PurchaseReturns/CreditNotes SEM `CardCode`. Adicionado `CardCode: doc.CardCode` no payload (deploy
+  v2026-07-13T19:57). Vale p/ todos os estornos por documento inverso.
+  (2) **Nº da NF trocava por número do sistema após salvar:** o campo "Número da Nota Fiscal" estava
+  ligado a `SequenceSerial` (numeração fiscal que o SAP renumera). Religado a **`NumAtCard`** (convenção
+  do portal p/ nº do fornecedor) na inclusão, consulta e save de RecebMercadoria (deploy v2026-07-13T20:00).
+  Regra: nº da NF do fornecedor SEMPRE = NumAtCard, nunca SequenceSerial.

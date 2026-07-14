@@ -16,3 +16,8 @@ Deploy do portal no VPS de **teste (161)** — o time testa aqui, **nada vai pra
 - `Component.js` → `_initVersionChecker()`: lê a versão no boot, e a cada **90s** compara com o servidor; se mudou, `_promptReload()` abre MessageBox "Atualização disponível" → "Atualizar agora" faz `location.reload(true)`. "Depois" silencia até sair OUTRA versão.
 - **REGRA:** todo deploy DEVE bumpar o `version.json` (o `deploy-161.sh` já faz). Sem bump, o aviso não dispara. Quando replicar em produção, levar Component.js + version.json + o bump no processo de deploy.
 - **Novidades + COMO VALIDAR no aviso (01/07/2026):** o `version.json` tem `notes: [{m:"mudanca", v:"como validar"}, ...]`; o `_promptReload(notes)` exibe mudanca + "Como validar" no MessageBox (aceita string simples p/ retrocompat). Passar no deploy: `NOTES="mudanca 1::como validar 1|mudanca 2::como validar 2" bash deploy-161.sh <arquivos>` (`|` separa itens, `::` separa mudanca da validacao). O script monta o JSON localmente e envia. Caveat SPA: o formato novo só aparece a partir do deploy SEGUINTE ao que todos carregaram o Component com esse recurso.
+
+**URL DE ACESSO DO TIME (161, confirmada no servidor 10/07):** o portal do Davi abre em
+**`http://161.97.185.151:3003/`** (raiz = tela de login, `<title>Portal SAP</title>`). Wiki em
+`http://161.97.185.151:3003/wiki/`. NÃO é `/portal/login` (isso é 404 aqui — esse caminho é do
+outro portal, LS/CNC). Sem HTTPS/domínio: acesso por IP:porta direto. É a URL que Rafaela/Rute usam.

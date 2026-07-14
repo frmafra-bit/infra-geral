@@ -30,5 +30,10 @@
 - [Estratégia: observar antes de automatizar](estrategia-observar-antes-de-automatizar.md) — acompanhar rotinas dos times (Rute/Rafaela/Bruna/Financeiro), pegar o padrão, só então automação; fase de observação
 - [Arquitetura de dados do portal](arquitetura-dados-portal.md) — SAP/HANA só via Service Layer (sem HANA direto); cérebro no nosso banco 161 (SQLite roda; Postgres a subir); espelho incremental; planejamento de estoque
 - [NFS-e = dado sensível dos gestores](nfse-dado-sensivel-gestores.md) — NÃO deixar tela de Notas de Serviço no ar; expõe notas dos PJ dos donos; só sob pedido + controle de acesso
-- [Ambiente Mac (migração)](ambiente-mac-migracao.md) — projeto migrado p/ MacBook do Mafra 09/07; abrir Claude em ~/portal-davi; deploy nativo; usar UMA máquina
+- [Ambiente Mac (migração)](ambiente-mac-migracao.md) — Mac = máquina de trabalho e fonte única (decisão 14/07, após vai-e-volta Mac→Windows→Mac); tudo no GitHub frmafra-bit; Windows sai de cena
+- [⚠️ Container do 161 é efêmero](container-161-camada-efemera.md) — NUNCA recriar o container: 227 arquivos só na camada gravável; credenciais Qive no .env; restart sim, recreate não
+- [Repo próprio I16BR](repo-proprio-i16br.md) — portal v3.0 em github.com/I16BR/portal-erp (privado); chave SSH i16br_github; origin do Ricardo nunca recebe push
+- [Busca cliente 8 cópias](busca-cliente-8-copias.md) — buscaClientes/onPressCliente copiados em 8-13 telas; filtro codificado + binding context + fechar this.Clientes (não this.Fornecedor)
+- [Padrão linhas de venda](padrao-linhas-venda-dimensoes.md) — Toggle Produto/Serviço + colunas de dimensão em todo faturamento; serviço=conta de receita at_Revenues; Cotação feita, falta Pedido/Entrega
+- [Plano padronização telas vendas](padronizacao-telas-vendas-plano.md) — Auditoria + blocos p/ igualar TODAS as telas (cadastro/consulta) da Cotação à NF + Contas a Receber/baixa no Kanban
 - [Protocolo backup/continuidade](protocolo-backup-continuidade.md) — REGRA: código+memória sempre no GitHub; notebook não pode ser ponto único de falha; push ao fim de toda sessão; automatizar
