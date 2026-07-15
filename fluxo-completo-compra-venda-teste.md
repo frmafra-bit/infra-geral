@@ -11,8 +11,10 @@ Receita validada (SBO_HOMOLOG) para gerar ciclo completo make-to-stock via Servi
 
 **Compra:** PurchaseRequests → 3× PurchaseQuotations (base 1470000113 na SC) → PurchaseOrders (base 540000006) → PurchaseDeliveryNotes/recebimento (base 22) → PurchaseInvoices/NF entrada (base 20) [alimenta estoque]. **Venda:** Orders/pedido → DeliveryNotes/remessa (base 17) → Invoices/NF venda (base 15) [gera financeiro].
 
+**ATUALIZAÇÃO 14/07/2026 (re-teste ponta-a-ponta OK):** os **RV-0002..RV-0010 foram INATIVADOS/congelados** (Valid=tNO, Frozen=tYES); só RV-0001 ativo. NÃO usar a lista fixa — **sortear do pool válido em tempo real**: `Items?$filter=PurchaseItem eq 'tYES' and InventoryItem eq 'tYES' and Valid eq 'tYES' and Frozen eq 'tNO'` e `BusinessPartners?$filter=CardType eq 'cSupplier' and Valid eq 'tYES' and Frozen eq 'tNO'`. **GOTCHA do base-copy:** ao basear Cotação na SC (BaseType 1470000113), o **Quantity NÃO é copiado** (fica 0 → o Pedido falha "Quantity cannot be zero"). Solução: mandar **ItemCode+Quantity+WarehouseCode explícitos** em cada linha, além do BaseType/BaseEntry/BaseLine, em TODOS os elos (Cotação/Pedido/Receb/NF). Login SL via proxy local do 161 `http://127.0.0.1:8080/b1s/v1` (sem dor de TLS). Cadeia validada 14/07: SC 151 → Cotações 221-226 → Pedido 104 → Receb 99 → NF 92. Docs "sujos" de tentativas com erro: SC 150 + Cotações 215-220 (qtd 0).
+
 Dados-mestre válidos:
-- **Produtos estoque+compra+venda** (saldo 0): RV-0001..RV-0010 (areia/pedra/brita). Depósito "01".
+- **Produtos estoque+compra+venda** (saldo 0): RV-0001..RV-0010 (areia/pedra/brita) — **RV-0002..0010 inativos desde ~jul/26**. Depósito "01".
 - **Clientes**: C0001 (GABRIELA), C43465459000173 (AMPARO), C46319000000150 (GUARULHOS), C46523247000193 (DIADEMA), C46522959000198 (MAUA).
 - **Fornecedores**: F00846804000106 (BRIDA), F47866934000174 (TICKET), F04323682000124 (CASA ANTENAS), F54890805000187, F03864289000185, F20938089000149.
 - **Projetos** (OPRJ Code): 164/2021, 45/2021, 69/2022, 92/2022, 117/2023, 278/2022, 002/2022, 10/2024.

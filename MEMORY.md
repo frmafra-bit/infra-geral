@@ -38,3 +38,5 @@
 - [Plano padronização telas vendas](padronizacao-telas-vendas-plano.md) — Auditoria + blocos p/ igualar TODAS as telas (cadastro/consulta) da Cotação à NF + Contas a Receber/baixa no Kanban
 - [Protocolo backup/continuidade](protocolo-backup-continuidade.md) — REGRA: código+memória sempre no GitHub; notebook não pode ser ponto único de falha; push ao fim de toda sessão; automatizar
 - [Domínios ccskf.com.br + HTTPS](dominios-ccskf-https.md) — portais em <cliente>.ccskf.com.br (nginx+certbot no 161); davi.ccskf.com.br→3003 (portal do time); DNS no KingHost; receita p/ novo cliente
+- [Padrão export/perso das listas](padrao-export-perso-listas.md) — Excel/PDF/escolher-colunas (molde SaidaMercadoria); gotcha: TODA coluna precisa id estático senão perso não abre; teste UI via Playwright
+- [Performance das consultas SL](performance-consultas-sl.md) — lentidão = falta $select+$top (não v1/v2); medido 10× em produto; v2 só nos kanbans (linha); auditoria: 46 buscas de item + 15 de parceiro sem $select
