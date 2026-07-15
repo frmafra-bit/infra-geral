@@ -37,3 +37,4 @@
 - [Padrão linhas de venda](padrao-linhas-venda-dimensoes.md) — Toggle Produto/Serviço + colunas de dimensão em todo faturamento; serviço=conta de receita at_Revenues; Cotação feita, falta Pedido/Entrega
 - [Plano padronização telas vendas](padronizacao-telas-vendas-plano.md) — Auditoria + blocos p/ igualar TODAS as telas (cadastro/consulta) da Cotação à NF + Contas a Receber/baixa no Kanban
 - [Protocolo backup/continuidade](protocolo-backup-continuidade.md) — REGRA: código+memória sempre no GitHub; notebook não pode ser ponto único de falha; push ao fim de toda sessão; automatizar
+- [Domínios ccskf.com.br + HTTPS](dominios-ccskf-https.md) — portais em <cliente>.ccskf.com.br (nginx+certbot no 161); davi.ccskf.com.br→3003 (portal do time); DNS no KingHost; receita p/ novo cliente
