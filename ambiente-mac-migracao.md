@@ -33,7 +33,7 @@ metadata:
   - **Memória** → repo `frmafra-bit/infra-geral` (chave SSH `~/.ssh/frmafra_bit_github`, host `github-frmafrabit`). É o repo que já existia (populado pelo Windows até 10/07); a partir de 14/07 só o Mac empurra.
   - **Código do portal** → a mover para um repo em `frmafra-bit` (host `github-frmafrabit`). Ver [[repo-proprio-i16br]] (destino anterior era I16BR/portal-erp; consolidar em frmafra-bit).
 - **NÃO empurrar** para `MafraFiori/DAVI_CAMINHOES` (repo do Ricardo/Junior) — ver [[equipe-e-governanca-portal]].
-- **Windows:** parar de empurrar memória; apagar a chave `davi-memoria-windows` da conta `frmafra-bit` quando conveniente. Se um dia precisar do Windows, sincronizar SEMPRE por git antes de mexer (senão diverge de novo, como aconteceu).
+- **Windows:** ❌ **NÃO EXISTE MAIS (14/07/2026).** A máquina Windows foi **formatada e virou produto de laboratório** — não trabalha mais no projeto. Logo o Mac é a **ÚNICA** máquina e divergência ficou impossível. A chave `davi-memoria-windows` na conta `frmafra-bit` está **órfã** (a máquina dela não existe) — pode apagar quando quiser.
 - **Nunca colocar credencial em código** — usar `.env` (ver [[integracao-qive]]).
 - Deploy 161: Frontend → `bash deploy-161.sh webapp/...` (bumpa version.json). Backend → `docker cp` + `docker restart davi_caminhoes` (NÃO bumpa version.json).
 - Acesso Windows→Mac por SSH (se precisar): chave `mac_migracao` autorizada no `~/.ssh/authorized_keys` do Mac; Mac em `mafra@192.168.15.171` / `MacBook-Pro-de-Francisco.local` (rede LUMAFRA).

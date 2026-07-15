@@ -1,10 +1,13 @@
 ---
 name: repo-proprio-i16br
 description: "Repositório próprio do portal (v3.0) — GitHub I16BR/portal-erp, privado; como autenticar e empurrar"
-metadata:
-  node_type: reference
+metadata: 
+  node_type: memory
   type: reference
+  originSessionId: 92eba152-918b-4363-93e2-2ee7ca5ad176
 ---
+
+**⚠️ ATUALIZAÇÃO 14/07/2026 — I16BR / `framafrai16` MORREU. A conta única agora é `frmafra-bit`.** Decisão do Mafra: "esse é o nosso, o outro morreu". Tudo (código + memória) se concentra em **`frmafra-bit`** (github-frmafrabit, chave `~/.ssh/frmafra_bit_github`). A memória já foi pra `frmafra-bit/infra-geral`. **O código do portal ainda aponta pra I16BR/MafraFiori e falta migrar pra `frmafra-bit`** — Mafra pediu pra ADIAR ("esquece isso agora"). Quando for: criar repo em frmafra-bit + push. O resto abaixo é histórico da fase I16BR.
 
 **Criado em 09/07/2026.** O portal passou a viver num repositório **nosso**, não no do cliente.
 
